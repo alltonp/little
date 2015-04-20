@@ -7,7 +7,7 @@ organization := "im.mange"
 
 version := Try(sys.env("TRAVIS_BUILD_NUMBER")).map("0.0." + _).getOrElse("1.0-SNAPSHOT")
 
-scalaVersion:= "2.11.4"
+scalaVersion:= "2.11.5"
 
 //crossScalaVersions := Seq("2.10.4"/*, "2.11.0"*/)
 
@@ -27,25 +27,25 @@ libraryDependencies ++= Seq(
 //  }
 //}
 
-//sonatypeSettings
+sonatypeSettings
 
-//publishTo <<= version { project_version ⇒
-//  val nexus = "https://oss.sonatype.org/"
-//  if (project_version.trim.endsWith("SNAPSHOT"))
-//    Some("snapshots" at nexus + "content/repositories/snapshots")
-//  else
-//    Some("releases" at nexus + "service/local/staging/deploy/maven2")
-//}
+publishTo <<= version { project_version ⇒
+  val nexus = "https://oss.sonatype.org/"
+  if (project_version.trim.endsWith("SNAPSHOT"))
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases" at nexus + "service/local/staging/deploy/maven2")
+}
 
-//publishMavenStyle := true
+publishMavenStyle := true
 
-//publishArtifact in Test := false
+publishArtifact in Test := false
 
 homepage := Some(url("https://github.com/alltonp/little"))
 
 licenses +=("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 
-//credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", System.getenv("SONATYPE_USER"), System.getenv("SONATYPE_PASSWORD"))
+credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", System.getenv("SONATYPE_USER"), System.getenv("SONATYPE_PASSWORD"))
 
 pomExtra :=
     <scm>
