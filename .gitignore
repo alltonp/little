@@ -37,6 +37,6 @@ lift_proto*
 
 # IntelliJ
 workspace.xml
-./idea/*
-./idea/libraries/*
-./idea/modules/*
+.idea/*
+.idea/libraries/*
+.idea/modules/*
