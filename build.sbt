@@ -1,21 +1,20 @@
 import scala.util.Try
 
-
 name := "little"
-
 organization := "im.mange"
-
 version := Try(sys.env("TRAVIS_BUILD_NUMBER")).map("0.0." + _).getOrElse("1.0-SNAPSHOT")
 
-scalaVersion:= "2.11.5"
+scalaVersion := "2.11.6"
 
-resolvers ++= Seq(
-  "Sonatype OSS Releases" at "http://oss.sonatype.org/content/repositories/releases/"
-)
+resolvers += "Sonatype OSS Releases" at "http://oss.sonatype.org/content/repositories/releases/"
 
 libraryDependencies ++= Seq(
+  "joda-time"      % "joda-time"      % "2.7" % "provided",
+  "org.joda"       % "joda-convert"   % "1.6" % "provided",
+  "org.json4s"     %% "json4s-native" % "3.2.11" exclude("org.scala-lang", "scala-compiler"),
+  "org.scala-lang" % "scala-reflect"  % scalaVersion.value % "provided",
+  "org.scalatest"  %% "scalatest"     % "2.2.4" % "test" notTransitive()
 )
-
 
 sonatypeSettings
 
@@ -28,11 +27,9 @@ publishTo <<= version { project_version ⇒
 }
 
 publishMavenStyle := true
-
 publishArtifact in Test := false
 
 homepage := Some(url("https://github.com/alltonp/little"))
-
 licenses +=("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 
 credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", System.getenv("SONATYPE_USER"), System.getenv("SONATYPE_PASSWORD"))
