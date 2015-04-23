@@ -8,7 +8,6 @@ Add the following lines to your build.sbt
 
     libraryDependencies += "im.mange" %% "little" % "version"
 
-
 Code license
 ------------
 Apache License 2.0
