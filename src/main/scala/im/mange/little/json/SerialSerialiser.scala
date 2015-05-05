@@ -13,13 +13,13 @@ object LittleSerialisers {
   val localDate     = SerialSerialiser[LocalDate](s ⇒ JodaTime.datePattern.print(s), s ⇒ opt(JodaTime.datePattern.parseLocalDate(s)))
   val localTime     = SerialSerialiser[LocalTime](t ⇒ t.toString, s ⇒ opt(JodaTime.timePattern.parseLocalTime(s)))
   val localDateTime = SerialSerialiser[LocalDateTime](t ⇒ t.toString, s⇒ opt(JodaTime.dateTimePattern.parseLocalDateTime(s)))
+  val number        = SerialSerialiser[BigDecimal](_.toString(), s ⇒ opt(BigDecimal(s)))
   val percentage    = SerialSerialiser[Percentage](_.underlyingValue, s ⇒ opt(Percentage((BigDecimal(s) * 100).toString())))
   val boolean       = SerialSerialiser[Boolean](_.toString, s ⇒ opt(s.toBoolean))
   val amount        = SerialSerialiser[Amount](_.underlyingValue, s ⇒ opt(Amount(s)))
 
-  def all = Seq(
-    localDate, localTime, localDateTime, percentage, boolean, amount
-  )
+  def all = Seq(localDate, localTime, localDateTime, number, percentage, boolean, amount)
+
   private def opt[T](v: ⇒T): Option[T] = Try(v).toOption
 }
 
