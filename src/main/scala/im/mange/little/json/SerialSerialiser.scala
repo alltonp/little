@@ -40,7 +40,7 @@ case class SerialSerialiser[T: ClassTag](serialise: T ⇒ String, deserialise: S
 }
 
 object JodaTime {
-  val datePattern = date()
+  val datePattern = date().withZoneUTC()
 //  val timePattern = localTimeParser()
-  val dateTimePattern = localDateOptionalTimeParser()
+  val dateTimePattern = localDateOptionalTimeParser().withZoneUTC()
 }
