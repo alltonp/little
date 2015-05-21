@@ -3,16 +3,16 @@ package im.mange.little.json
 import im.mange.little.amount.Amount
 import im.mange.little.percentage.Percentage
 import org.joda.time.format.ISODateTimeFormat._
-import org.joda.time.{LocalDate, LocalDateTime, LocalTime}
+import org.joda.time.{DateTime, LocalDate, LocalDateTime, LocalTime}
 import org.json4s._
 
 import scala.reflect.ClassTag
 import scala.util.Try
 
 object LittleSerialisers {
-//  val localDate     = SerialSerialiser[LocalDate](s ⇒ JodaTime.datePattern.print(s), s ⇒ opt(JodaTime.datePattern.parseLocalDate(s)))
+  val date     = SerialSerialiser[LocalDate](s ⇒ JodaTime.datePattern.print(s), s ⇒ opt(JodaTime.datePattern.parseLocalDate(s)))
 //  val localTime     = SerialSerialiser[LocalTime](t ⇒ t.toString, s ⇒ opt(JodaTime.timePattern.parseLocalTime(s)))
-//  val localDateTime = SerialSerialiser[LocalDateTime](t ⇒ t.toString, s⇒ opt(JodaTime.dateTimePattern.parseLocalDateTime(s)))
+  val dateTime = SerialSerialiser[DateTime](t ⇒ t.toString, s⇒ opt(JodaTime.dateTimePattern.parseDateTime(s)))
   val number        = SerialSerialiser[BigDecimal](_.toString(), s ⇒ opt(BigDecimal(s)))
   val percentage    = SerialSerialiser[Percentage](_.underlyingValue, s ⇒ opt(Percentage((BigDecimal(s) * 100).toString())))
   val boolean       = SerialSerialiser[Boolean](_.toString, s ⇒ opt(s.toBoolean))
@@ -39,8 +39,8 @@ case class SerialSerialiser[T: ClassTag](serialise: T ⇒ String, deserialise: S
   }
 }
 
-//object JodaTime {
-//  val datePattern = date()
+object JodaTime {
+  val datePattern = date()
 //  val timePattern = localTimeParser()
-//  val dateTimePattern = localDateOptionalTimeParser()
-//}
+  val dateTimePattern = localDateOptionalTimeParser()
+}
