@@ -6,15 +6,18 @@ import org.joda.time.format.DateTimeFormat._
 import org.joda.time.format.PeriodFormatterBuilder
 import org.joda.time.{DateTime, Interval, LocalDateTime, Period}
 
+//TIP: we work on the assumption that it's best to:
+//(1) always create/store in UTC
+//(2) render how client wants to see it, but default to UTC
+//TODO: pass the DTZ through ...
 class DateFormatForHumans(clock: Clock) {
   val standardTimeFormat     = forPattern("HH:mm:ss").withZone(UTC)
   val standardDateTimeFormat = forPattern("HH:mm:ss EEE dd MMM yyyy").withZone(UTC)
   val shortDateTimeFormat    = forPattern("HH:mm:ss dd/MM/yyyy").withZone(UTC)
   val shortDateFormat        = forPattern("dd/MM/yyyy").withZone(UTC)
   val fileDateFormat         = forPattern("yyyy-MM-dd").withZone(UTC)
-
-  private val todayDateTimeFormat    = forPattern("HH:mm:ss 'Today'").withZone(UTC)
-  private val thisYearDateTimeFormat = forPattern("HH:mm:ss EEE dd MMM").withZone(UTC)
+  val todayDateTimeFormat    = forPattern("HH:mm:ss 'Today'").withZone(UTC)
+  val thisYearDateTimeFormat = forPattern("HH:mm:ss EEE dd MMM").withZone(UTC)
 
   private val agoFormat = new PeriodFormatterBuilder()
     .appendHours()
@@ -28,10 +31,10 @@ class DateFormatForHumans(clock: Clock) {
     .appendSuffix("s")
     .toFormatter
 
-  def format(when: DateTime) = formatFor(when).print(when)
-  def ago(when: DateTime) = agoFormat.print(new Interval(when.toDateTime, today.toDateTime).toPeriod)
+  def today(when: DateTime) = formatFor(when).print(when)
+  def ago(when: DateTime) = agoFormat.print(new Interval(when, todaysDateTime).toPeriod)
   def ago(period: Period) = agoFormat.print(period)
-  def timeNow = standardTimeFormat.print(today)
+  def timeNow = standardTimeFormat.print(todaysDateTime)
 
   private def formatFor(when: DateTime) = {
     if (isToday(when)) todayDateTimeFormat
@@ -39,13 +42,13 @@ class DateFormatForHumans(clock: Clock) {
     else standardDateTimeFormat
   }
 
-  private def isToday(when: DateTime) = isSameDay(when, today)
-  private def isThisYear(when: DateTime) = when.isAfter(today.minusYears(1))
+  private def isToday(when: DateTime) = isSameDay(when, todaysDateTime)
+  private def isThisYear(when: DateTime) = when.isAfter(todaysDateTime.minusYears(1))
 
   private def isSameDay(when: DateTime, as: DateTime) =
     when.getYear == as.getYear &&
       when.getMonthOfYear == as.getMonthOfYear &&
       when.getDayOfMonth == as.getDayOfMonth
 
-  private def today = clock.dateTime
+  private def todaysDateTime = clock.dateTime
 }
