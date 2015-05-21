@@ -17,6 +17,8 @@ object LittleSerialisers {
   val boolean       = SerialSerialiser[Boolean](_.toString, s ⇒ opt(s.toBoolean))
   val amount        = SerialSerialiser[Amount](_.underlyingValue, s ⇒ opt(Amount(s)))
 
+  //TODO: this should probably be allLittle as it doesnt include Joda
+  //TODO: and or pull out to a ClockSerialisers
   def all = Seq(number, percentage, boolean, amount)
 
   private def opt[T](v: ⇒T): Option[T] = Try(v).toOption
