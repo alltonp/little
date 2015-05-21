@@ -2,7 +2,7 @@ package im.mange.little.calendar
 
 import im.mange.little.clock.FrozenClock
 import org.joda.time.DateTimeConstants._
-import org.joda.time.{LocalDate, LocalDateTime}
+import org.joda.time.{DateTime, LocalDate, LocalDateTime}
 import org.scalatest.{MustMatchers, WordSpec}
 
 class NaiveCalendarSpec extends WordSpec with MustMatchers {
@@ -64,7 +64,7 @@ class NaiveCalendarSpec extends WordSpec with MustMatchers {
   private def twoBusinessDaysAfter(dayOfWeek: Int)   = serviceWith(dayOfWeek).nextBusinessDate(increment = 2)
   private def twoBusinessDaysBefore(dayOfWeek: Int)  = serviceWith(dayOfWeek).previousBusinessDate(decrement = 2)
 
-  private def serviceWith(dayOfWeek: Int) = new NaiveCalendar(FrozenClock(value = LocalDateTime.now().withDayOfWeek(dayOfWeek)))
+  private def serviceWith(dayOfWeek: Int) = new NaiveCalendar(FrozenClock(value = DateTime.now().withDayOfWeek(dayOfWeek)))
 
   private def dateForLast(dayOfWeek: Int) = dateForThis(dayOfWeek).minusWeeks(1)
   private def dateForThis(dayOfWeek: Int) = LocalDate.now().withDayOfWeek(dayOfWeek)

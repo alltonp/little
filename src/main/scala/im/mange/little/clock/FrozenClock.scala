@@ -1,9 +1,8 @@
 package im.mange.little.clock
 
-import org.joda.time.LocalDateTime
+import org.joda.time.{DateTime, DateTimeZone}
 
-case class FrozenClock(value: LocalDateTime = new LocalDateTime(2015, 1, 1, 9, 0, 0)) extends Clock {
-  def localDate     = value.toLocalDate
-  def localDateTime = value
-  def dateTime      = localDateTime.toDateTime
+case class FrozenClock(value: DateTime = new DateTime(2015, 1, 1, 9, 0, 0, DateTimeZone.UTC)) extends Clock {
+  def date = value.toLocalDate
+  def dateTime = value
 }

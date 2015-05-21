@@ -4,7 +4,6 @@ import org.joda.time.DateTimeZone.UTC
 import org.joda.time.{DateTime, LocalDate, LocalDateTime}
 
 object RealClock extends Clock {
-  def localDate     = new LocalDate()
-  def localDateTime = new LocalDateTime()
-  def dateTime      = new DateTime(UTC)
+  def date     = new LocalDate(UTC)
+  def dateTime = new DateTime(UTC)
 }

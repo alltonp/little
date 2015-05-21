@@ -1,9 +1,8 @@
 package im.mange.little.clock
 
-import org.joda.time.{DateTime, LocalDate, LocalDateTime}
+import org.joda.time.{DateTime, LocalDate}
 
 trait Clock {
-  def localDate: LocalDate
-  def localDateTime: LocalDateTime
+  def date: LocalDate
   def dateTime: DateTime
 }

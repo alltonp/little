@@ -12,19 +12,19 @@ trait Calendar {
 
 class NaiveCalendar(clock: Clock) extends Calendar {
   def currentBusinessDate: LocalDate = {
-    val today = clock.localDate
+    val today = clock.date
     if (today.getDayOfWeek > FRIDAY) nextBusinessDateAfter(today) else today
   }
 
   def previousBusinessDate(decrement: Int): LocalDate = {
-    val date1: LocalDate = clock.localDate
+    val date1: LocalDate = clock.date
     var date = previousBusinessDateBefore(date1)
     for (i ← 2 to decrement) date = previousBusinessDateBefore(date)
     date
   }
 
   def nextBusinessDate(increment: Int): LocalDate = {
-    var date = nextBusinessDateAfter(clock.localDate)
+    var date = nextBusinessDateAfter(clock.date)
     for (i ← 2 to increment) date = nextBusinessDateAfter(date)
     date
   }

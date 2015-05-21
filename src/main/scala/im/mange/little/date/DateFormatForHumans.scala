@@ -4,7 +4,7 @@ import im.mange.little.clock.Clock
 import org.joda.time.DateTimeZone._
 import org.joda.time.format.DateTimeFormat._
 import org.joda.time.format.PeriodFormatterBuilder
-import org.joda.time.{Interval, LocalDateTime, Period}
+import org.joda.time.{DateTime, Interval, LocalDateTime, Period}
 
 class DateFormatForHumans(clock: Clock) {
   val standardTimeFormat     = forPattern("HH:mm:ss").withZone(UTC)
@@ -28,24 +28,24 @@ class DateFormatForHumans(clock: Clock) {
     .appendSuffix("s")
     .toFormatter
 
-  def format(when: LocalDateTime) = formatFor(when).print(when)
-  def ago(when: LocalDateTime) = agoFormat.print(new Interval(when.toDateTime, today.toDateTime).toPeriod)
+  def format(when: DateTime) = formatFor(when).print(when)
+  def ago(when: DateTime) = agoFormat.print(new Interval(when.toDateTime, today.toDateTime).toPeriod)
   def ago(period: Period) = agoFormat.print(period)
   def timeNow = standardTimeFormat.print(today)
 
-  private def formatFor(when: LocalDateTime) = {
+  private def formatFor(when: DateTime) = {
     if (isToday(when)) todayDateTimeFormat
     else if (isThisYear(when)) thisYearDateTimeFormat
     else standardDateTimeFormat
   }
 
-  private def isToday(when: LocalDateTime) = isSameDay(when, today)
-  private def isThisYear(when: LocalDateTime) = when.isAfter(today.minusYears(1))
+  private def isToday(when: DateTime) = isSameDay(when, today)
+  private def isThisYear(when: DateTime) = when.isAfter(today.minusYears(1))
 
-  private def isSameDay(when: LocalDateTime, as: LocalDateTime) =
+  private def isSameDay(when: DateTime, as: DateTime) =
     when.getYear == as.getYear &&
       when.getMonthOfYear == as.getMonthOfYear &&
       when.getDayOfMonth == as.getDayOfMonth
 
-  private def today = clock.localDateTime
+  private def today = clock.dateTime
 }
