@@ -1,15 +1,16 @@
 package im.mange.little.date
 
-import im.mange.little.clock.Clock
+import im.mange.little.clock.{RealClock, Clock}
+import im.mange.little.json.JodaTime
 import org.joda.time.DateTimeZone._
 import org.joda.time.format.DateTimeFormat._
-import org.joda.time.format.PeriodFormatterBuilder
+import org.joda.time.format.{ISODateTimeFormat, PeriodFormatterBuilder}
 import org.joda.time._
 
 //TIP: we work on the assumption that it's best to:
 //(1) always create/store in UTC
-//(2) render how client wants to see it, but default to UTC
-class DateFormatForHumans(clock: Clock, dateTimeZone: DateTimeZone = UTC) {
+//(2) render how client wants to see it
+class DateFormatForHumans(clock: Clock, dateTimeZone: DateTimeZone = DateTimeZone.getDefault) {
   val standardTimeFormat     = forPattern("HH:mm:ss").withZone(dateTimeZone)
   val standardDateTimeFormat = forPattern("HH:mm:ss EEE dd MMM yyyy").withZone(dateTimeZone)
   val shortDateTimeFormat    = forPattern("HH:mm:ss dd/MM/yyyy").withZone(dateTimeZone)
