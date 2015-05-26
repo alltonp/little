@@ -10,16 +10,37 @@ import org.json4s.ext.DateParser
 import scala.reflect.ClassTag
 import scala.util.Try
 
-object LittleSerialisers {
+object LittleJodaSerialisers {
   val date     = SerialSerialiser[LocalDate](s ⇒ JodaTime.datePattern.print(s), s ⇒ opt(JodaTime.datePattern.parseLocalDate(s)))
   val dateTime = SerialSerialiser[DateTime](t ⇒ t.toString, s⇒ opt(JodaTime.dateTimePattern.parseDateTime(s)))
+
+  def all = Seq(date, dateTime)
+
+  private def opt[T](v: ⇒T): Option[T] = Try(v).toOption
+
+  case object UtcDateTimeSerializer extends CustomSerializer[DateTime](format => (
+    {
+      case JString(s) => new DateTime(DateParser.parse(s, format), DateTimeZone.UTC)
+      case JNull => null
+    },
+    {
+      case d: DateTime => JString(format.dateFormat.format(d.toDate))
+    }
+    ))
+}
+
+object JodaTime {
+  val datePattern = date().withZoneUTC()
+  val dateTimePattern = localDateOptionalTimeParser().withZoneUTC()
+}
+
+
+object LittleSerialisers {
   val number        = SerialSerialiser[BigDecimal](_.toString(), s ⇒ opt(BigDecimal(s)))
   val percentage    = SerialSerialiser[Percentage](_.underlyingValue, s ⇒ opt(Percentage((BigDecimal(s) * 100).toString())))
   val boolean       = SerialSerialiser[Boolean](_.toString, s ⇒ opt(s.toBoolean))
   val amount        = SerialSerialiser[Amount](_.underlyingValue, s ⇒ opt(Amount(s)))
 
-  //TODO: this should probably be allLittle as it doesnt include Joda
-  //TODO: and or pull out to a ClockSerialisers
   def all = Seq(number, percentage, boolean, amount)
 
   private def opt[T](v: ⇒T): Option[T] = Try(v).toOption
@@ -39,19 +60,4 @@ case class SerialSerialiser[T: ClassTag](serialise: T ⇒ String, deserialise: S
   def serialize(implicit format: Formats): PartialFunction[Any, JValue] = {
     case x: T ⇒ JString(serialise(x))
   }
-}
-
-case object UtcDateTimeSerializer extends CustomSerializer[DateTime](format => (
-  {
-    case JString(s) => new DateTime(DateParser.parse(s, format), DateTimeZone.UTC)
-    case JNull => null
-  },
-  {
-    case d: DateTime => JString(format.dateFormat.format(d.toDate))
-  }
-  ))
-
-object JodaTime {
-  val datePattern = date().withZoneUTC()
-  val dateTimePattern = localDateOptionalTimeParser().withZoneUTC()
 }
