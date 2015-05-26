@@ -11,7 +11,7 @@ import scala.util.Try
 
 object LittleSerialisers {
   val date     = SerialSerialiser[LocalDate](s ⇒ JodaTime.datePattern.print(s), s ⇒ opt(JodaTime.datePattern.parseLocalDate(s)))
-  val dateTime = SerialSerialiser[DateTime](t ⇒ JodaTime.dateTimePattern.print(t), s⇒ opt(JodaTime.dateTimePattern.parseDateTime(s)))
+  val dateTime = SerialSerialiser[DateTime](t ⇒ t.toString, s⇒ opt(JodaTime.dateTimePattern.parseDateTime(s)))
   val number        = SerialSerialiser[BigDecimal](_.toString(), s ⇒ opt(BigDecimal(s)))
   val percentage    = SerialSerialiser[Percentage](_.underlyingValue, s ⇒ opt(Percentage((BigDecimal(s) * 100).toString())))
   val boolean       = SerialSerialiser[Boolean](_.toString, s ⇒ opt(s.toBoolean))
