@@ -2,7 +2,7 @@ package im.mange.little.json
 
 import im.mange.little.amount.Amount
 import im.mange.little.percentage.Percentage
-import org.joda.time.format.ISODateTimeFormat._
+import org.joda.time.format.ISODateTimeFormat
 import org.joda.time._
 import org.json4s._
 import org.json4s.ext.DateParser
@@ -11,7 +11,10 @@ import scala.reflect.ClassTag
 import scala.util.Try
 
 object LittleJodaSerialisers {
-  val date     = SerialSerialiser[LocalDate](s ⇒ JodaTime.datePattern.print(s), s ⇒ opt(JodaTime.datePattern.parseLocalDate(s)))
+  private val datePattern = ISODateTimeFormat.date().withZoneUTC()
+  private val dateTimePattern = ISODateTimeFormat.localDateOptionalTimeParser().withZoneUTC()
+
+  val date     = SerialSerialiser[LocalDate](s ⇒ datePattern.print(s), s ⇒ opt(datePattern.parseLocalDate(s)))
   val dateTime = UtcDateTimeSerializer
 
   def all = Seq(date, dateTime)
@@ -28,11 +31,6 @@ object LittleJodaSerialisers {
       case d: DateTime => JString(format.dateFormat.format(d.toDate))
     }
     ))
-}
-
-object JodaTime {
-  val datePattern = date().withZoneUTC()
-  val dateTimePattern = localDateOptionalTimeParser().withZoneUTC()
 }
 
 object LittleSerialisers {
