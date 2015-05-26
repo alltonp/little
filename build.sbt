@@ -10,8 +10,17 @@ resolvers += "Sonatype OSS Releases" at "http://oss.sonatype.org/content/reposit
 
 libraryDependencies ++= Seq(
   "joda-time"      % "joda-time"      % "[2.7,3.0]" % "provided",
-  "org.joda"       % "joda-convert"   % "[1.6,2.0]" % "provided",
-  "org.json4s"     %% "json4s-native" % "3.2.11" exclude("org.scala-lang", "scala-compiler"),
+//  "org.joda"       % "joda-convert"   % "[1.6,2.0]" % "provided",
+  "org.json4s"     %% "json4s-native" % "3.2.11"
+    exclude("org.scala-lang", "scala-compiler")
+    exclude("org.scala-lang", "scalap")
+    exclude("joda-time", "joda-time")
+  ,
+
+  "org.json4s"     %% "json4s-ext"    % "3.2.11"
+    exclude("joda-time", "joda-time")
+  ,
+
   "org.scala-lang" % "scala-reflect"  % scalaVersion.value % "provided",
   "org.scalatest"  %% "scalatest"     % "2.2.4" % "test" notTransitive()
 )
