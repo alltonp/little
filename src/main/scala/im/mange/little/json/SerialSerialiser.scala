@@ -12,12 +12,13 @@ import scala.util.Try
 
 object LittleJodaSerialisers {
   val date     = SerialSerialiser[LocalDate](s ⇒ JodaTime.datePattern.print(s), s ⇒ opt(JodaTime.datePattern.parseLocalDate(s)))
-  val dateTime = SerialSerialiser[DateTime](t ⇒ t.toString, s⇒ opt(JodaTime.dateTimePattern.parseDateTime(s)))
+  val dateTime = UtcDateTimeSerializer
 
   def all = Seq(date, dateTime)
 
   private def opt[T](v: ⇒T): Option[T] = Try(v).toOption
 
+  //TIP: this is because the json4s DateTimeSerializer parses UTC DateTimes in the users default TimeZone (i.e. London), tsk.
   case object UtcDateTimeSerializer extends CustomSerializer[DateTime](format => (
     {
       case JString(s) => new DateTime(DateParser.parse(s, format), DateTimeZone.UTC)
@@ -33,7 +34,6 @@ object JodaTime {
   val datePattern = date().withZoneUTC()
   val dateTimePattern = localDateOptionalTimeParser().withZoneUTC()
 }
-
 
 object LittleSerialisers {
   val number        = SerialSerialiser[BigDecimal](_.toString(), s ⇒ opt(BigDecimal(s)))
