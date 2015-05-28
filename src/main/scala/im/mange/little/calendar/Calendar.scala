@@ -21,12 +21,13 @@ class NaiveCalendar(clock: Clock) extends Calendar {
     previousBusinessDate(decrement, clock.date)
   }
 
-  def previousBusinessDate(decrement: Int, date1: LocalDate): LocalDate = {
-    var date = previousBusinessDateBefore(date1)
+  def previousBusinessDate(decrement: Int, from: LocalDate): LocalDate = {
+    var date = previousBusinessDateBefore(from)
     for (i ← 2 to decrement) date = previousBusinessDateBefore(date)
     date
   }
 
+  //TODO: we should probably support form here too, to be consistent
   def nextBusinessDate(increment: Int): LocalDate = {
     var date = nextBusinessDateAfter(clock.date)
     for (i ← 2 to increment) date = nextBusinessDateAfter(date)
