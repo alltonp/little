@@ -6,7 +6,8 @@ import org.joda.time.LocalDate
 
 trait Calendar {
   def currentBusinessDate: LocalDate
-  def previousBusinessDate(increment: Int = 1): LocalDate
+  def previousBusinessDate(decrement: Int = 1): LocalDate
+  def previousBusinessDate(decrement: Int, from: LocalDate): LocalDate
   def nextBusinessDate(increment: Int = 1): LocalDate
 }
 
@@ -17,7 +18,10 @@ class NaiveCalendar(clock: Clock) extends Calendar {
   }
 
   def previousBusinessDate(decrement: Int): LocalDate = {
-    val date1: LocalDate = clock.date
+    previousBusinessDate(decrement, clock.date)
+  }
+
+  def previousBusinessDate(decrement: Int, date1: LocalDate): LocalDate = {
     var date = previousBusinessDateBefore(date1)
     for (i ← 2 to decrement) date = previousBusinessDateBefore(date)
     date

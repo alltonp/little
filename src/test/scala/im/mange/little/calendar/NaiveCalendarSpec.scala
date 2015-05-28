@@ -20,6 +20,11 @@ class NaiveCalendarSpec extends WordSpec with MustMatchers {
     previousBusinessDateOn(SUNDAY)    mustBe dateForThis(FRIDAY)
   }
 
+  "previous business date from provided date" in {
+    serviceWith(ignored).previousBusinessDate(decrement = 1, new LocalDate(2015, 12, 31)) mustBe new LocalDate(2015, 12, 30)
+    serviceWith(ignored).previousBusinessDate(decrement = 2, new LocalDate(2015, 12, 31)) mustBe new LocalDate(2015, 12, 29)
+  }
+
   "current business date during a working week" in {
     currentBusinessDateOn(MONDAY)    mustBe dateForThis(MONDAY)
     currentBusinessDateOn(TUESDAY)   mustBe dateForThis(TUESDAY)
@@ -69,4 +74,6 @@ class NaiveCalendarSpec extends WordSpec with MustMatchers {
   private def dateForLast(dayOfWeek: Int) = dateForThis(dayOfWeek).minusWeeks(1)
   private def dateForThis(dayOfWeek: Int) = LocalDate.now().withDayOfWeek(dayOfWeek)
   private def dateForNext(dayOfWeek: Int) = dateForThis(dayOfWeek).plusWeeks(1)
+
+  private val ignored = 1
 }
