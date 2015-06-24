@@ -6,5 +6,6 @@ object AmountFormats {
   val `0dp` = new DecimalFormat("#,##0")
   val `1dp` = new DecimalFormat("#,##0.0")
   val `2dp` = new DecimalFormat("#,##0.00")
+  val `3dp` = new DecimalFormat("#,##0.000")
   val `4dp` = new DecimalFormat("#,##0.0000")
 }
