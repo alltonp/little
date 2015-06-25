@@ -9,13 +9,15 @@ import org.joda.time.format.PeriodFormatterBuilder
 //(1) always create/store in UTC
 //(2) render how client wants to see it, default to default - but allow it be passed
 class DateFormatForHumans(clock: Clock, dateTimeZone: DateTimeZone = DateTimeZone.getDefault) {
-  val standardTimeFormat     = forPattern("HH:mm:ss").withZone(dateTimeZone)
-  val standardDateTimeFormat = forPattern("HH:mm:ss EEE dd MMM yyyy").withZone(dateTimeZone)
-  val shortDateTimeFormat    = forPattern("HH:mm:ss dd/MM/yyyy").withZone(dateTimeZone)
-  val shortDateFormat        = forPattern("dd/MM/yyyy").withZone(dateTimeZone)
-  val fileDateFormat         = forPattern("yyyy-MM-dd").withZone(dateTimeZone)
-  val todayDateTimeFormat    = forPattern("HH:mm:ss 'Today'").withZone(dateTimeZone)
-  val thisYearDateTimeFormat = forPattern("HH:mm:ss EEE dd MMM").withZone(dateTimeZone)
+  val standardTimeFormat      = forPattern("HH:mm:ss").withZone(dateTimeZone)
+  val standardDateTimeFormat  = forPattern("HH:mm:ss EEE dd MMM yyyy").withZone(dateTimeZone)
+  val shortDateTimeFormat     = forPattern("HH:mm:ss dd/MM/yyyy").withZone(dateTimeZone)
+  val shortDateFormat         = forPattern("dd/MM/yyyy").withZone(dateTimeZone)
+  val shortDateAmericanFormat = forPattern("MM/dd/yyyy").withZone(DateTimeZone.getDefault)
+  val shortDateNoYearFormat   = forPattern("dd/MM").withZone(dateTimeZone)
+  val fileDateFormat          = forPattern("yyyy-MM-dd").withZone(dateTimeZone)
+  val todayDateTimeFormat     = forPattern("HH:mm:ss 'Today'").withZone(dateTimeZone)
+  val thisYearDateTimeFormat  = forPattern("HH:mm:ss EEE dd MMM").withZone(dateTimeZone)
 
   private val agoFormat = new PeriodFormatterBuilder()
     .appendHours()
