@@ -25,4 +25,8 @@ class AmountSpec extends WordSpec with MustMatchers {
     Amount("0.0").nonZero mustBe false
   }
 
+  "Numeric instance" in {
+    Seq(Amount("1"), Amount("2"), Amount("3")).sum mustBe Amount("6")
+  }
+
 }
