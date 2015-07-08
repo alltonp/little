@@ -11,6 +11,18 @@ class AmountSpec extends WordSpec with MustMatchers {
     Amount("00.0").isZero mustBe true
     Amount("000.00").isZero mustBe true
     Amount("0.000").isZero mustBe true
+    Amount("1").isZero mustBe false
+    Amount("0.1").isZero mustBe false
+  }
+
+  "non zero" in {
+    Amount("1").nonZero mustBe true
+    Amount("1.0").nonZero mustBe true
+    Amount("10.0").nonZero mustBe true
+    Amount("100.00").nonZero mustBe true
+    Amount("0.001").nonZero mustBe true
+    Amount("0").nonZero mustBe false
+    Amount("0.0").nonZero mustBe false
   }
 
 }

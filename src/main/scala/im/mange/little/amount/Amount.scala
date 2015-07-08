@@ -32,4 +32,8 @@ case class Amount(private val value: String) {
   def underlyingValue = internal.toString()
   def isZero = this.equals(Amount.Zero)
   def nonZero = !this.equals(Amount.Zero)
+
+//  def isZero = this.internal.equals(Amount.Zero.internal)
+//  def nonZero = !isZero
+
 }
