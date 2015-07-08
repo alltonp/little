@@ -30,10 +30,6 @@ case class Amount(private val value: String) {
   def format(formatter: DecimalFormat) = formatter.format(internal)
   def abs = Amount(internal.abs.toString())
   def underlyingValue = internal.toString()
-  def isZero = this.equals(Amount.Zero)
-  def nonZero = !this.equals(Amount.Zero)
-
-//  def isZero = this.internal.equals(Amount.Zero.internal)
-//  def nonZero = !isZero
-
+  def isZero = this.internal.equals(Amount.Zero.internal)
+  def nonZero = !isZero
 }
