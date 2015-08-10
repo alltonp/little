@@ -4,9 +4,9 @@ import org.scalatest.{MustMatchers, WordSpec}
 
 class PercentageSpec extends WordSpec with MustMatchers {
 
-  "can round trip" in {
-    val from = Percentage("12345.67890")
-    val to = Percentage(from.underlyingValue)
-    from mustBe to
+  "can round trip from percentage" in {
+    val expected = Percentage.fromPercentage("105.00")
+    val to = Percentage.fromDecimalFraction("1.05")
+    expected mustBe to
   }
 }

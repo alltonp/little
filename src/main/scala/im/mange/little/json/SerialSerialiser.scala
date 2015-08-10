@@ -35,7 +35,7 @@ object LittleJodaSerialisers {
 
 object LittleSerialisers {
   val number        = SerialSerialiser[BigDecimal](_.toString(), s ⇒ opt(BigDecimal(s)))
-  val percentage    = SerialSerialiser[Percentage](_.underlyingValue, s ⇒ opt(Percentage((BigDecimal(s) * 100).toString())))
+  val percentage    = SerialSerialiser[Percentage](_.underlyingValue, s ⇒ opt(Percentage.fromDecimalFraction(s)))
   val boolean       = SerialSerialiser[Boolean](_.toString, s ⇒ opt(s.toBoolean))
   val amount        = SerialSerialiser[Amount](_.underlyingValue, s ⇒ opt(Amount(s)))
 
