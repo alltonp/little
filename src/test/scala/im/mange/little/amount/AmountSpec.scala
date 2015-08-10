@@ -29,4 +29,9 @@ class AmountSpec extends WordSpec with MustMatchers {
     Seq(Amount("1"), Amount("2"), Amount("3")).sum mustBe Amount("6")
   }
 
+  "can round trip" in {
+    val from = Amount("12345.67890")
+    val to = Amount(from.underlyingValue)
+    from mustBe to
+  }
 }
