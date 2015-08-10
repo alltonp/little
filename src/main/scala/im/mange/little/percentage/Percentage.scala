@@ -7,5 +7,5 @@ case class Percentage(private val value: String) {
   private[little] val internal = BigDecimal(if (trimmed.isEmpty) "0" else trimmed) / 100
 
   def format(formatter: NumberFormat) = formatter.format(internal)
-  def underlyingValue = internal.toString()
+  def underlyingValue = trimmed
 }
