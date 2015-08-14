@@ -15,7 +15,8 @@ class DateFormatForHumans(clock: Clock, dateTimeZone: DateTimeZone = DateTimeZon
   val shortDateFormat         = forPattern("dd/MM/yyyy").withZone(dateTimeZone)
   val shortDateAmericanFormat = forPattern("MM/dd/yyyy").withZone(DateTimeZone.getDefault)
   val shortDateNoYearFormat   = forPattern("dd/MM").withZone(dateTimeZone)
-  val fileDateFormat          = forPattern("yyyy-MM-dd").withZone(dateTimeZone)
+  val fileDateFormat          = forPattern("yyyy-MM-dd HH:mm:ss").withZone(dateTimeZone)
+  val fileDateTimeFormat          = forPattern("yyyy-MM-dd").withZone(dateTimeZone)
   val todayDateTimeFormat     = forPattern("HH:mm:ss 'Today'").withZone(dateTimeZone)
   val thisYearDateTimeFormat  = forPattern("HH:mm:ss EEE dd MMM").withZone(dateTimeZone)
 
