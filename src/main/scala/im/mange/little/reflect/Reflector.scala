@@ -26,7 +26,7 @@ object Reflector {
   }
 
   //TIP: borrowed from: http://stackoverflow.com/questions/1226555/case-class-to-map-in-scala
-  def orderedParamsToValues(cc: AnyRef): ListMap[String, Any] =
+  def orderedParamsToValues(cc: Any): ListMap[String, Any] =
     (ListMap[String, Any]() /: cc.getClass.getDeclaredFields) {(a, f) =>
       f.setAccessible(true)
       a + (f.getName -> interrogate(f.get(cc)))
