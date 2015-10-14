@@ -6,6 +6,7 @@ import org.joda.time.LocalDate
 
 trait Calendar {
   def currentBusinessDate: LocalDate
+  def isBusinessDate(date: LocalDate): Boolean
   def previousBusinessDate(decrement: Int = 1): LocalDate
   def previousBusinessDate(decrement: Int, from: LocalDate): LocalDate
   def nextBusinessDate(increment: Int = 1): LocalDate
@@ -32,6 +33,11 @@ class NaiveCalendar(clock: Clock) extends Calendar {
     var date = nextBusinessDateAfter(clock.date)
     for (i ← 2 to increment) date = nextBusinessDateAfter(date)
     date
+  }
+
+  override def isBusinessDate(date: LocalDate): Boolean = date.getDayOfWeek match {
+    case SATURDAY | SUNDAY ⇒ false
+    case _ ⇒ true
   }
 
   private def nextBusinessDateAfter(date: LocalDate) =
