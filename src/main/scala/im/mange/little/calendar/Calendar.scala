@@ -1,7 +1,8 @@
 package im.mange.little.calendar
 
-import im.mange.little.clock.Clock
+import im.mange.little.clock.{Clock, FrozenClock}
 import org.joda.time.DateTimeConstants._
+import org.joda.time.DateTimeZone.UTC
 import org.joda.time.LocalDate
 
 trait Calendar {
@@ -10,6 +11,7 @@ trait Calendar {
   def previousBusinessDate(decrement: Int = 1): LocalDate
   def previousBusinessDate(decrement: Int, from: LocalDate): LocalDate
   def nextBusinessDate(increment: Int = 1): LocalDate
+  def businessDatesBetween(first: LocalDate, last: LocalDate): Seq[LocalDate]
 }
 
 class NaiveCalendar(clock: Clock) extends Calendar {
@@ -35,10 +37,17 @@ class NaiveCalendar(clock: Clock) extends Calendar {
     date
   }
 
-  override def isBusinessDate(date: LocalDate): Boolean = date.getDayOfWeek match {
+  def isBusinessDate(date: LocalDate): Boolean = date.getDayOfWeek match {
     case SATURDAY | SUNDAY ⇒ false
     case _ ⇒ true
   }
+
+  def businessDatesBetween(first: LocalDate, last: LocalDate): Seq[LocalDate] =
+    if (first isAfter last) Stream.Empty
+    else {
+      val other = new NaiveCalendar(FrozenClock(first.toDateTimeAtCurrentTime(UTC)))
+      other.currentBusinessDate +: businessDatesBetween(other.nextBusinessDate(), last)
+    }
 
   private def nextBusinessDateAfter(date: LocalDate) =
     if (date.getDayOfWeek >= FRIDAY) date.plusWeeks(1).withDayOfWeek(MONDAY) else date.plusDays(1)
