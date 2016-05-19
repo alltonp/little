@@ -2,7 +2,7 @@ package im.mange.little.calendar
 
 import im.mange.little.clock.FrozenClock
 import org.joda.time.DateTimeConstants._
-import org.joda.time.{DateTime, LocalDate, LocalDateTime}
+import org.joda.time.{DateTime, LocalDate}
 import org.scalatest.{MustMatchers, WordSpec}
 
 class NaiveCalendarSpec extends WordSpec with MustMatchers {
@@ -64,12 +64,51 @@ class NaiveCalendarSpec extends WordSpec with MustMatchers {
     twoBusinessDaysBefore(TUESDAY)   mustBe dateForLast(FRIDAY)
   }
 
+  "business dates between dates of the same working week" in {
+    asOfNow.businessDatesBetween(dateForThis(MONDAY), dateForThis(FRIDAY)) mustBe Seq(
+      dateForThis(MONDAY),
+      dateForThis(TUESDAY),
+      dateForThis(WEDNESDAY),
+      dateForThis(THURSDAY),
+      dateForThis(FRIDAY)
+    )
+  }
+
+  "business dates between dates of consecutive working weeks" in {
+    asOfNow.businessDatesBetween(dateForThis(WEDNESDAY), dateForNext(TUESDAY)) mustBe Seq(
+      dateForThis(WEDNESDAY),
+      dateForThis(THURSDAY),
+      dateForThis(FRIDAY),
+      dateForNext(MONDAY),
+      dateForNext(TUESDAY)
+    )
+  }
+
+  "business dates between dates several working weeks apart" in {
+    asOfNow.businessDatesBetween(dateForThis(THURSDAY), dateForThis(TUESDAY).plusWeeks(2)) mustBe Seq(
+      dateForThis(THURSDAY),
+      dateForThis(FRIDAY),
+      dateForNext(MONDAY),
+      dateForNext(TUESDAY),
+      dateForNext(WEDNESDAY),
+      dateForNext(THURSDAY),
+      dateForNext(FRIDAY),
+      dateForNext(MONDAY).plusWeeks(1),
+      dateForNext(TUESDAY).plusWeeks(1)
+    )
+  }
+
+  "business dates between a date and another before it" in {
+    asOfNow.businessDatesBetween(dateForNext(WEDNESDAY), dateForThis(TUESDAY)) mustBe empty
+  }
+
   private def currentBusinessDateOn(dayOfWeek: Int)  = serviceWith(dayOfWeek).currentBusinessDate
   private def previousBusinessDateOn(dayOfWeek: Int) = serviceWith(dayOfWeek).previousBusinessDate()
   private def twoBusinessDaysAfter(dayOfWeek: Int)   = serviceWith(dayOfWeek).nextBusinessDate(increment = 2)
   private def twoBusinessDaysBefore(dayOfWeek: Int)  = serviceWith(dayOfWeek).previousBusinessDate(decrement = 2)
 
   private def serviceWith(dayOfWeek: Int) = new NaiveCalendar(FrozenClock(value = DateTime.now().withDayOfWeek(dayOfWeek)))
+  private def asOfNow = serviceWith(DateTime.now().dayOfWeek().get())
 
   private def dateForLast(dayOfWeek: Int) = dateForThis(dayOfWeek).minusWeeks(1)
   private def dateForThis(dayOfWeek: Int) = LocalDate.now().withDayOfWeek(dayOfWeek)
