@@ -102,6 +102,10 @@ class NaiveCalendarSpec extends WordSpec with MustMatchers {
     asOfNow.businessDatesBetween(dateForNext(WEDNESDAY), dateForThis(TUESDAY)) mustBe empty
   }
 
+  "business dates between a business date and itself" in {
+    asOfNow.businessDatesBetween(dateForThis(WEDNESDAY), dateForThis(WEDNESDAY)) must contain only dateForThis(WEDNESDAY)
+  }
+
   private def currentBusinessDateOn(dayOfWeek: Int)  = serviceWith(dayOfWeek).currentBusinessDate
   private def previousBusinessDateOn(dayOfWeek: Int) = serviceWith(dayOfWeek).previousBusinessDate()
   private def twoBusinessDaysAfter(dayOfWeek: Int)   = serviceWith(dayOfWeek).nextBusinessDate(increment = 2)
