@@ -4,7 +4,7 @@ name := "little"
 organization := "im.mange"
 version := Try(sys.env("TRAVIS_BUILD_NUMBER")).map("0.0." + _).getOrElse("1.0-SNAPSHOT")
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.12.1"
 
 resolvers += "Sonatype OSS Releases" at "http://oss.sonatype.org/content/repositories/releases/"
 
@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
   ,
 
   "org.scala-lang" % "scala-reflect"  % scalaVersion.value % "provided",
-  "org.scalatest"  %% "scalatest"     % "2.2.4" % "test" notTransitive()
+  "org.scalatest"  %% "scalatest"     % "3.0.1" % "test" //notTransitive()
 )
 
 net.virtualvoid.sbt.graph.Plugin.graphSettings
