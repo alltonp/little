@@ -17,7 +17,10 @@ object Filepath {
   def move(source: Path, target: Path): Path = Files.move(source, target, ATOMIC_MOVE)
   def move(source: File, target: File): Path = move(Paths.get(source.path), Paths.get(target.path))
 
-//  def create(path: Path): Path = createFile(path)
+  //TODO: not sure we need this, so excluding for a bit
+  //def create(path: Path): Path = createFile(path)
+
+  def createDir(dir: Path): Path = Files.createDirectories(dir)
 
   def list(dir: Path, glob: String): List[String] = {
     val stream: DirectoryStream[Path] = Files.newDirectoryStream(dir, glob)
