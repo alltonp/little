@@ -3,6 +3,7 @@ package im.mange.little.file
 import java.nio.file.StandardCopyOption._
 import java.nio.file.StandardOpenOption._
 import java.nio.file.{DirectoryStream, Files, Path, Paths}
+import java.util.Comparator
 
 import scala.io.Codec
 import scala.reflect.io.File
@@ -40,9 +41,14 @@ object Filepath {
     result
   }
 
-  def toPath(value: String) = Paths.get(value)
+  //TODO: untested
+  def deleteDir(dir: Path): Unit =
+    Files.walk(dir)
+      .sorted(Comparator.reverseOrder())
+      .forEach(Files.delete(_))
 
-  //TODO: add deleteDir(dir: Path)
+//  def toPath(value: String) = Paths.get(value)
 
+  //TODO: consider string values instead of/as well as Path
   //TODO: maybe the dir ones should be on a different object ... again
 }
