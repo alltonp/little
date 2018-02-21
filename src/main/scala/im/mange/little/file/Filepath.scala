@@ -7,10 +7,11 @@ import java.nio.file.StandardCopyOption._
 import java.nio.file.StandardOpenOption._
 import java.nio.file.{DirectoryStream, Files, Path, Paths}
 
+import scala.io.Codec
 import scala.reflect.io.File
 
 object Filepath {
-  def load(path: Path): String = File(path.toFile).slurp()
+  def load(path: Path, codec: Codec = Codec.UTF8): String = File(path.toFile).slurp(codec)
 
   def save(content: String, path: Path, charset: Charset = UTF_8): Path =
     write(path, content.getBytes(charset), CREATE, WRITE, TRUNCATE_EXISTING)
