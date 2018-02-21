@@ -10,6 +10,7 @@ import org.json4s.ext.DateParser
 import scala.reflect.ClassTag
 import scala.util.Try
 
+//TODO: maybe it's time for this to move out into a little-json project
 object LittleJodaSerialisers {
   private val datePattern = ISODateTimeFormat.date().withZoneUTC()
   private val dateTimePattern = ISODateTimeFormat.localDateOptionalTimeParser().withZoneUTC()
