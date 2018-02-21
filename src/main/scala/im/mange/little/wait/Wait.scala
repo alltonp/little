@@ -3,6 +3,7 @@ package im.mange.little.wait
 import scala.annotation.tailrec
 
 //TODO: this is all borrowed from driveby, it should be in little-wait.jar
+//TODO: is this used by flakeless? if not, it can die (or mo
 object Wait {
   def waitUpTo(timeout: Long = 5000, pollPeriod: Long = 1) = new Wait(timeout, pollPeriod)
 }
