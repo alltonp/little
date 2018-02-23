@@ -13,6 +13,9 @@ object Filepath {
     File(path.toFile).slurp(codec)
     //or Files.readAllLines(path).asScala.mkString("\n")
 
+  def loadLines(path: Path, codec: Codec = Codec.UTF8): List[String] =
+    load(path, codec).split(System.lineSeparator).toList
+
   def save(content: String, path: Path, codec: Codec = Codec.UTF8): Path = {
     if (!exists(path.getParent)) createDir(path.getParent)
     write(content, path, codec, CREATE, WRITE, TRUNCATE_EXISTING)
