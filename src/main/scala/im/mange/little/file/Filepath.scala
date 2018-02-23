@@ -24,11 +24,11 @@ object Filepath {
   def append(content: String, path: Path, codec: Codec = Codec.UTF8): Path =
     write(content, path, codec, CREATE, WRITE, APPEND)
 
-  def move(source: Path, target: Path): Path =
-    Files.move(source, target, ATOMIC_MOVE, REPLACE_EXISTING)
+  def move(src: Path, dest: Path): Path =
+    Files.move(src, dest, ATOMIC_MOVE, REPLACE_EXISTING)
 
-  def copy(source: Path, target: Path): Path =
-    Files.copy(source, target, ATOMIC_MOVE, REPLACE_EXISTING)
+  def copy(src: Path, dest: Path): Path =
+    Files.copy(src, dest, ATOMIC_MOVE, REPLACE_EXISTING)
 
   def createDir(dir: Path): Path = Files.createDirectories(dir)
 
