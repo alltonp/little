@@ -2,7 +2,7 @@ package im.mange.little.file
 
 import java.nio.file.StandardCopyOption._
 import java.nio.file.StandardOpenOption._
-import java.nio.file.{DirectoryStream, Files, Path}
+import java.nio.file.{DirectoryStream, Files, OpenOption, Path}
 import java.util.Comparator
 
 import scala.io.Codec
@@ -13,15 +13,16 @@ object Filepath {
     File(path.toFile).slurp(codec)
     //or Files.readAllLines(path).asScala.mkString("\n")
 
-  def save(content: String, path: Path, codec: Codec = Codec.UTF8): Path =
-    Files.write(path, content.getBytes(codec.charSet), CREATE, WRITE, TRUNCATE_EXISTING)
+  def save(content: String, path: Path, codec: Codec = Codec.UTF8): Path = {
+    if (!exists(path.getParent)) createDir(path.getParent)
+    write(content, path, codec, CREATE, WRITE, TRUNCATE_EXISTING)
+  }
 
   def append(content: String, path: Path, codec: Codec = Codec.UTF8): Path =
-    Files.write(path, content.getBytes(codec.charSet), CREATE, WRITE, APPEND)
+    write(content, path, codec, CREATE, WRITE, APPEND)
 
   //TODO: kill these soon, if not needed
   //def touch(path: Path): Path = createFile(path)
-  //def exists(path: Path) = Files.exists(path)
 
   def move(source: Path, target: Path): Path =
     Files.move(source, target, ATOMIC_MOVE, REPLACE_EXISTING)
@@ -45,10 +46,14 @@ object Filepath {
     if (Files.exists(dir)) Files.walk(dir)
       .sorted(Comparator.reverseOrder())
       .forEach(Files.delete(_))
-
   }
-//  def toPath(value: String) = Paths.get(value)
+
+  private def write(content: String, path: Path, codec: Codec, options: OpenOption*) =
+    Files.write(path, content.getBytes(codec.charSet), options:_*)
+
+  private def exists(path: Path) = Files.exists(path)
 
   //TODO: consider string values instead of/as well as Path
   //TODO: maybe the dir ones should be on a different object ... again
+  //  def toPath(value: String) = Paths.get(value)
 }
