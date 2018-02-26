@@ -49,11 +49,4 @@ object Filepath {
     Files.write(path, content.getBytes(codec.charSet), options:_*)
 
   private def exists(path: Path) = Files.exists(path)
-
-  //TIP: keep api to use Path, means the client will be less stringy
-  //TODO: maybe the dir ones should be on a different object ... again
-  //  def toPath(value: String) = Paths.get(value)
-
-  //TODO: kill this soon, if def not needed - it's basically save("") anyway
-  //def touch(path: Path): Path = createFile(path)
 }
