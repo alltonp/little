@@ -8,6 +8,7 @@ import org.joda.time.format.PeriodFormatterBuilder
 //TIP: we work on the assumption that it's best to:
 //(1) always create/store in UTC
 //(2) render how client wants to see it, default to default - but allow it be passed
+
 class DateFormatForHumans(clock: Clock, dateTimeZone: DateTimeZone = DateTimeZone.getDefault) {
   val standardTimeFormat      = forPattern("HH:mm:ss").withZone(dateTimeZone)
   val standardDateTimeFormat  = forPattern("HH:mm:ss EEE dd MMM yyyy").withZone(dateTimeZone)
