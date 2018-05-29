@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
 //  "org.joda"       % "joda-convert"   % "[1.6,2.0]" % "provided",
   "org.json4s"     %% "json4s-native" % "3.2.11" % "provided"
     exclude("org.scala-lang", "scala-compiler")
-    exclude("org.scala-lang", "scalap")
+//    exclude("org.scala-lang", "scalap")
     exclude("joda-time", "joda-time")
   ,
 
