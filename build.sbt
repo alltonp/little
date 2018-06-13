@@ -1,4 +1,5 @@
 import scala.util.Try
+import xerial.sbt.Sonatype._
 
 name := "little"
 organization := "im.mange"
@@ -9,14 +10,20 @@ scalaVersion := "2.12.4"
 resolvers += "Sonatype OSS Releases" at "http://oss.sonatype.org/content/repositories/releases/"
 
 libraryDependencies ++= Seq(
-  "joda-time"      % "joda-time"      % "[2.7,3.0]" % "provided",
+  //TIP: try to keep my deps range based to allows clients to specifiy
+  "com.github.nscala-time" %% "nscala-time" % "[2.18.0,2.99.99]" % "provided",
+
+//  "joda-time"      % "joda-time"      % "[2.7,3.0]" % "provided",
 //  "org.joda"       % "joda-convert"   % "[1.6,2.0]" % "provided",
+
+  //TODO: make range based once json4s fixes their new versions
   "org.json4s"     %% "json4s-native" % "3.2.11" % "provided"
     exclude("org.scala-lang", "scala-compiler")
 //    exclude("org.scala-lang", "scalap")
     exclude("joda-time", "joda-time")
   ,
 
+  //TODO: make range based once json4s fixes their new versions
   "org.json4s"     %% "json4s-ext"    % "3.2.11" % "provided"
     exclude("joda-time", "joda-time")
   ,
@@ -25,7 +32,7 @@ libraryDependencies ++= Seq(
   "org.scalatest"  %% "scalatest"     % "3.0.1" % "test" //notTransitive()
 )
 
-net.virtualvoid.sbt.graph.Plugin.graphSettings
+//net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 sonatypeSettings
 
