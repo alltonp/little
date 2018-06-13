@@ -17,14 +17,15 @@ libraryDependencies ++= Seq(
 //  "org.joda"       % "joda-convert"   % "[1.6,2.0]" % "provided",
 
   //TODO: make range based once json4s fixes their new versions
-  "org.json4s"     %% "json4s-native" % "3.2.11" % "provided"
+  //TIP: keep both these as NOT provided
+  "org.json4s"     %% "json4s-native" % "3.2.11"// % "provided"
     exclude("org.scala-lang", "scala-compiler")
 //    exclude("org.scala-lang", "scalap")
     exclude("joda-time", "joda-time")
   ,
 
   //TODO: make range based once json4s fixes their new versions
-  "org.json4s"     %% "json4s-ext"    % "3.2.11" % "provided"
+  "org.json4s"     %% "json4s-ext"    % "3.2.11"// % "provided"
     exclude("joda-time", "joda-time")
   ,
 
