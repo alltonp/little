@@ -45,8 +45,8 @@ object Filepath {
       .forEach(Files.delete(_))
   }
 
+  def exists(path: Path): Boolean = Files.exists(path)
+
   private def write(content: String, path: Path, codec: Codec, options: OpenOption*) =
     Files.write(path, content.getBytes(codec.charSet), options:_*)
-
-  private def exists(path: Path) = Files.exists(path)
 }
